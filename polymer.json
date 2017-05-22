@@ -1,0 +1,35 @@
+{
+  "entrypoint": "index.html",
+  "shell": "src/sentryio-demo-app.html",
+  
+  "sources": [
+    "src/**/*",
+    "images/**/*",
+    "bower.json"
+  ],
+  "extraDependencies": [
+    "manifest.json",
+    "bower_components/webcomponentsjs/*.js",
+    "bower_components/slate-font-awesome/fonts/*.*"
+  ],
+  "lint": {
+    "rules": [
+      "polymer-2"
+    ]
+  },
+  "builds": [
+    {
+      "addServiceWorker": false,
+      "insertPrefetchLinks": true,
+      "js": {
+        "minify": true
+      },
+      "css": {
+        "minify": true
+      },
+      "html": {
+        "minify": true
+      }
+    }
+  ]
+}

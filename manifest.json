@@ -1,0 +1,7 @@
+{
+  "name": "sentryio-demo",
+  "short_name": "sentryio-demo",
+  "description": "Demo app for Sentry.io",
+  "start_url": "/",
+  "display": "standalone"
+}

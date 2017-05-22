@@ -1,0 +1,189 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+
+<link rel="import" href="../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<link rel="import" href="../bower_components/slate-font-awesome/slate-font-awesome.html">
+
+
+<link rel="import" href="../bower_components/granite-qrcode-generator/granite-qrcode-generator.html">
+
+
+<dom-module id="sentryio-demo-app">
+  <template>
+    <style include="slate-font-awesome">
+       :host {
+        display: block;
+        --app-primary-color: rgb(33, 150, 243);
+        --app-secondary-color: rgb(255, 171, 64);
+      }
+
+      body {
+        color: rgb(66, 66, 66);
+      }
+
+      app-header {
+        background-color: var(--app-primary-color);
+        color: #fff;
+      }
+
+
+      app-toolbar {
+        height: 60px;
+      }
+
+      .content {
+        display: block;
+        position: relative;
+        max-width: 70vw;
+        margin: 20px auto;
+      }
+
+      .blockquote {
+        background: #f9f9f9;
+        border-left: 5px solid #ccc;
+        font-style: italic;
+        padding: 0.5em 5px;
+        font-size: 1.5em;
+      }
+
+      .box {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+      }
+
+      .item {
+        flex: 0 1 auto;
+        align-self: auto;
+        min-height: auto;
+      }
+
+      paper-card {
+        display: block;
+        margin-bottom: 20px;
+      }
+
+      paper-fab {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        --paper-fab-background: var(--app-primary-color);
+      }
+
+      paper-button.secondary-color {
+        background-color: var(--app-secondary-color);
+        color: rgb(66, 66, 66);
+        margin-bottom: 20px;
+        width: 20vw;
+      }
+    </style>
+
+    <app-header-layout fullbleed>
+      <app-header slot="header" fixed shadow>
+        <app-toolbar>
+          <div spacer main-title>Sentry.io demo</div>
+        </app-toolbar>
+      </app-header>
+
+      <div class="content">
+
+        <paper-card>
+          <div class="card-content">
+            <div class="box">
+              <div class="item" style="flex-grow: 1; flex-basis: 30%;">
+                <div style="display: flex; align-items: center;">
+                  <img src="../images/sentryio_logo.png" width="50" alt="sentry.io logo">
+                  <p style="font-weight: bold; margin-left: 10px; font-size: 3em;">
+                    Sentry.io</p>
+                </div>
+              </div>
+              <div class="item" style="flex-grow: 2; flex-basis: 60%;">
+                <p class="blockquote">
+                  "Sentry’s real-time error tracking gives you insight into production deployments and information to reproduce and fix crashes."
+                </p>
+              </div>
+            </div>
+          </div>
+        </paper-card>
+
+        <paper-card heading="Play from your device">
+          <div class="card-content">
+            <div style="display: flex; justify-content: center;">
+              <granite-qrcode-generator data="https://jefflefoll.github.io/sentryio-demo" mode="alphanumeric" format="html" modulesize="10"
+                auto></granite-qrcode-generator>
+            </div>
+          </div>
+        </paper-card>
+
+        <paper-card heading="Let's break stuff !">
+          <div class="card-content">
+            <div style="display: flex; justify-content: center;">
+              <paper-button raised class="secondary-color" onclick="{{ randomCrash }}"><i class="fa fa-bomb fa-2x" aria-hidden="true"></i></paper-button>
+            </div>
+          </div>
+        </paper-card>
+
+      </div>
+    </app-header-layout>
+
+
+    <paper-fab label="😻" onclick="{{ feedbackNeeded }}"></paper-fab>
+  </template>
+
+  <script>
+
+    class SentryioDemoApp extends Polymer.Element {
+      static get is() { return 'sentryio-demo-app'; }
+
+      randomCrash() {
+        let error = {
+          code: Math.floor(Math.random() * 4),
+          msg: "",
+          extra: "Extra cool stuff!"
+        };
+
+        console.log('error.code: ' + error.code);
+
+        switch (error.code) {
+          case 1:
+            error.msg = "undefined stuff";
+            error.data.boom;
+            break;
+          case 2:
+            error.msg = "is not a function";
+            Number.isNaN().isFinite();
+            break;
+          case 3:
+            error.msg = "Error in fetch()";
+            fetch('notHereAPI').then(response => response.data());
+            break;
+          default:
+            error.msg = "Yeah!!! One more time !";
+            throw new Error(error.msg);
+        }
+      }
+
+      feedbackNeeded() {
+        try {
+          throw new Error('Very bad error in critical path. User feedback needed !');
+          console.log('Result: ' + result)
+        } catch (err) {
+          Raven.captureException(err);
+          Raven.showReportDialog();
+        }
+      }
+
+    }
+
+    window.customElements.define(SentryioDemoApp.is, SentryioDemoApp);
+  </script>
+</dom-module>
