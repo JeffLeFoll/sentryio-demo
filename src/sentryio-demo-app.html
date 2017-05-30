@@ -8,6 +8,8 @@
 <link rel="import" href="../bower_components/paper-card/paper-card.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-item/all-imports.html">
 
 <link rel="import" href="../bower_components/slate-font-awesome/slate-font-awesome.html">
 
@@ -132,6 +134,41 @@
           </div>
         </paper-card>
 
+        <paper-card heading="What about a form ?">
+          <div class="card-content">
+            <div style="display: flex; justify-content: center;">
+              <form>
+                <paper-input name="lastName" always-float-label label="Lastname"></paper-input>
+                <paper-input name="surName" always-float-label label="Surname"></paper-input>
+                <paper-button raised class="secondary-color" onclick="{{ submitForm }}">Submit</i>
+                </paper-button>
+              </form>
+            </div>
+          </div>
+        </paper-card>
+
+        <paper-card heading="To get further ...">
+          <div class="card-content">
+            <div style="display: flex; justify-content: center;">
+              <a href="https://github.com/JeffLeFoll/sentryio-demo" tabindex="-1">
+                <paper-icon-item>
+                  <i class="fa fa-github" slot="tem-icon"></i>
+                  <paper-item-body two-line>
+                    <div>/JeffLeFoll/sentryio-demo</div>
+                    <div secondary>This app source code</div>
+                  </paper-item-body>
+                </paper-icon-item>
+                </a>
+
+              <a href="https://sentry.io">Sentry.io</a>
+
+              <a href="https://docs.sentry.io">Sentry.io documentation</a>
+
+            </div>
+          </div>
+        </paper-card>
+
+
       </div>
     </app-header-layout>
 
@@ -140,7 +177,6 @@
   </template>
 
   <script>
-
     class SentryioDemoApp extends Polymer.Element {
       static get is() { return 'sentryio-demo-app'; }
 
@@ -175,10 +211,17 @@
       feedbackNeeded() {
         try {
           throw new Error('Very bad error in critical path. User feedback needed !');
-          console.log('Result: ' + result)
         } catch (err) {
           Raven.captureException(err);
           Raven.showReportDialog();
+        }
+      }
+
+      submitForm(event) {
+        try {
+          throw new Error('Error while submitting form!');
+        } catch (err) {
+          Raven.captureException(err);
         }
       }
 
