@@ -93,12 +93,11 @@
         color: inherit;
         text-decoration: none;
       }
-        
-        .paper-item-link:hover {
-          background-color: var(--app-primary-color);
-          --paper-item-body-secondary-color: white;
-        }
 
+      .paper-item-link:hover {
+        background-color: var(--app-primary-color);
+        --paper-item-body-secondary-color: white;
+      }
     </style>
 
     <app-header-layout fullbleed>
@@ -132,8 +131,7 @@
         <paper-card heading="Play from your device">
           <div class="card-content">
             <div style="display: flex; justify-content: center;">
-              <granite-qrcode-generator data="[[url]]" mode="alphanumeric" format="html" modulesize="10"
-                auto></granite-qrcode-generator>
+              <granite-qrcode-generator data="[[url]]" mode="alphanumeric" format="html" modulesize="10" auto></granite-qrcode-generator>
             </div>
           </div>
         </paper-card>
@@ -208,8 +206,8 @@
     class SentryioDemoApp extends Polymer.Element {
       static get is() { return 'sentryio-demo-app'; }
 
-      connectedCallback() {
-        super.connectedCallback();
+      constructor() {
+        super();
 
         this.url = window.location.origin;
       }
@@ -248,17 +246,20 @@
       }
 
       submitForm(event) {
-        try {
-          fetch('/api', {
-            method: "POST",
-            body: JSON.stringify({ name: this.name, lastname: this.lastname }),
-            headers: { "Content-Type": "application/json" }
-          })
-            .then((response) => this.checkStatus(response))
-            .catch(error => new Error(error));
-        } catch (err) {
-          Raven.captureException(err);
-        }
+        fetch('/api', {
+          method: "POST",
+          body: JSON.stringify({ name: this.name, lastname: this.lastname }),
+          headers: { "Content-Type": "application/json" }
+        })
+          .then((response) => this.checkStatus(response))
+          .catch((error) => {
+            error.msg = 'Fetch POST Method failed!';
+            error.extra = 'Body data: ' + JSON.stringify({ name: this.name, lastname: this.lastname });
+            Raven.captureException(error);
+          });
+
+
+
       }
 
       checkStatus(response) {
