@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "install": "bower install && polymer build",
-    "start": "polymer serve build/default --port 8080"
+    "start": "polymer serve build/default --hostname 0.0.0.0 --port 8080"
   },
   "devDependencies": {
     "bower": "^1.8.0",
