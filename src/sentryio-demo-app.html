@@ -129,7 +129,7 @@
         <paper-card heading="Let's break stuff !">
           <div class="card-content">
             <div style="display: flex; justify-content: center;">
-              <paper-button raised class="secondary-color" onclick="{{ randomCrash }}"><i class="fa fa-bomb fa-2x" aria-hidden="true"></i></paper-button>
+              <paper-button raised class="secondary-color" on-tap="randomCrash"><i class="fa fa-bomb fa-2x" aria-hidden="true"></i></paper-button>
             </div>
           </div>
         </paper-card>
@@ -138,9 +138,9 @@
           <div class="card-content">
             <div style="display: flex; justify-content: center;">
               <form>
-                <paper-input name="lastName" always-float-label label="Lastname"></paper-input>
-                <paper-input name="surName" always-float-label label="Surname"></paper-input>
-                <paper-button raised class="secondary-color" onclick="{{ submitForm }}">Submit</i>
+                <paper-input name="lastName" always-float-label label="Lastname" value="{{lastname}}"></paper-input>
+                <paper-input name="surName" always-float-label label="Surname" value="{{name}}"></paper-input>
+                <paper-button raised class="secondary-color" on-tap="submitForm">Submit</i>
                 </paper-button>
               </form>
             </div>
@@ -158,7 +158,7 @@
                     <div secondary>This app source code</div>
                   </paper-item-body>
                 </paper-icon-item>
-                </a>
+              </a>
 
               <a href="https://sentry.io">Sentry.io</a>
 
@@ -173,7 +173,7 @@
     </app-header-layout>
 
 
-    <paper-fab label="😻" onclick="{{ feedbackNeeded }}"></paper-fab>
+    <paper-fab label="😻" on-tap="feedbackNeeded"></paper-fab>
   </template>
 
   <script>
@@ -198,10 +198,6 @@
             error.msg = "is not a function";
             Number.isNaN().isFinite();
             break;
-          case 3:
-            error.msg = "Error in fetch()";
-            fetch('notHereAPI').then(response => response.data());
-            break;
           default:
             error.msg = "Yeah!!! One more time !";
             throw new Error(error.msg);
@@ -219,10 +215,24 @@
 
       submitForm(event) {
         try {
-          throw new Error('Error while submitting form!');
+          fetch('/api', {
+            method: "POST",
+            body: JSON.stringify({ name: this.name, lastname: this.lastname }),
+            headers: { "Content-Type": "application/json" }
+          })
+            .then((response) => this.checkStatus(response))
+            .catch(error => new Error(error));
         } catch (err) {
           Raven.captureException(err);
         }
+      }
+
+      checkStatus(response) {
+        if (response.status >= 200 && response.status < 300) {
+          this.clear();
+          return Promise.resolve(response);
+        }
+        return Promise.reject(new Error(response.satusText));
       }
 
     }
