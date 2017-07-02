@@ -1,0 +1,12 @@
+{
+  "name": "sentryio-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "install": "bower install && polymer build",
+    "start": "polymer serve build/default --port 8080"
+  },
+  "devDependencies": {
+    "bower": "^1.8.0",
+    "polymer-cli": "^1.3.0"
+  }
+}

@@ -132,7 +132,7 @@
         <paper-card heading="Play from your device">
           <div class="card-content">
             <div style="display: flex; justify-content: center;">
-              <granite-qrcode-generator data="https://jefflefoll.github.io/sentryio-demo" mode="alphanumeric" format="html" modulesize="10"
+              <granite-qrcode-generator data="[[url]]" mode="alphanumeric" format="html" modulesize="10"
                 auto></granite-qrcode-generator>
             </div>
           </div>
@@ -207,6 +207,12 @@
   <script>
     class SentryioDemoApp extends Polymer.Element {
       static get is() { return 'sentryio-demo-app'; }
+
+      connectedCallback() {
+        super.connectedCallback();
+
+        this.url = window.location;
+      }
 
       randomCrash() {
         let error = {

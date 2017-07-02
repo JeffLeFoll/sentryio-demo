@@ -1,7 +1,6 @@
 {
   "entrypoint": "index.html",
   "shell": "src/sentryio-demo-app.html",
-  
   "sources": [
     "src/**/*",
     "images/**/*",
@@ -19,6 +18,7 @@
   },
   "builds": [
     {
+      "addPushManifest": false,
       "addServiceWorker": false,
       "insertPrefetchLinks": true,
       "js": {
