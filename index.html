@@ -1,33 +1,40 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <title>sentryio-demo</title>
-    <meta name="description" content="Small ap to demonstrate sentry.io">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
 
-    <!-- See https://goo.gl/OOhYW5 -->
-    <link rel="manifest" href="./manifest.json">
+  <title>sentryio-demo</title>
+  <meta name="description" content="Small ap to demonstrate sentry.io">
 
-    <script src="./bower_components/webcomponentsjs/webcomponents-loader.js"></script>
-    <script src="./bower_components/raven-js/dist/raven.js"></script>
-    <script>
-        Raven.config('https://15d8c4ebce594d5092dfe5c496ad467c@sentry.io/167983')
-          .install()
-    </script>
+  <!-- See https://goo.gl/OOhYW5 -->
+  <link rel="manifest" href="./manifest.json">
 
-    <link rel="import" href="./src/sentryio-demo-app.html">
+  <script src="./bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+  <script src="./bower_components/raven-js/dist/raven.js"></script>
+  <link rel="import" href="./src/sentryio-demo-app.html">
+  <script>
+    Raven.config('https://15d8c4ebce594d5092dfe5c496ad467c@sentry.io/167983')
+      .install()
+  </script>
 
-    <style>
+  <link rel="import" href="./bower_components/slate-font-awesome/slate-font-awesome.html">
+  <link rel="import" href="./src/sentryio-demo-app.html">
+
+  <custom-style>
+    <style include="slate-font-awesome">
       body {
         margin: 0;
         font-family: 'Roboto', 'Noto', sans-serif;
         background-color: #eee;
-      }    
+      }
     </style>
-  </head>
-  <body>
-    <sentryio-demo-app></sentryio-demo-app>
-  </body>
+  </custom-style>
+</head>
+
+<body>
+  <sentryio-demo-app></sentryio-demo-app>
+</body>
+
 </html>

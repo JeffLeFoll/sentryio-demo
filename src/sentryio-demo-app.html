@@ -13,8 +13,9 @@
 
 <link rel="import" href="../bower_components/slate-font-awesome/slate-font-awesome.html">
 
-
 <link rel="import" href="../bower_components/granite-qrcode-generator/granite-qrcode-generator.html">
+
+<script src="../bower_components/raven-js/dist/raven.js"></script>
 
 
 <dom-module id="sentryio-demo-app">
@@ -87,6 +88,17 @@
         margin-bottom: 20px;
         width: 20vw;
       }
+
+      .paper-item-link {
+        color: inherit;
+        text-decoration: none;
+      }
+        
+        .paper-item-link:hover {
+          background-color: var(--app-primary-color);
+          --paper-item-body-secondary-color: white;
+        }
+
     </style>
 
     <app-header-layout fullbleed>
@@ -149,20 +161,36 @@
 
         <paper-card heading="To get further ...">
           <div class="card-content">
+
             <div style="display: flex; justify-content: center;">
-              <a href="https://github.com/JeffLeFoll/sentryio-demo" tabindex="-1">
+
+              <a href="https://github.com/JeffLeFoll/sentryio-demo" tabindex="-1" class="paper-item-link">
                 <paper-icon-item>
-                  <i class="fa fa-github" slot="tem-icon"></i>
+                  <i class="fa fa-github" slot="item-icon"></i>
                   <paper-item-body two-line>
-                    <div>/JeffLeFoll/sentryio-demo</div>
+                    <div>GitHub/JeffLeFoll/sentryio-demo</div>
                     <div secondary>This app source code</div>
                   </paper-item-body>
                 </paper-icon-item>
               </a>
 
-              <a href="https://sentry.io">Sentry.io</a>
+              <a href="https://sentry.io" tabindex="-1" class="paper-item-link">
+                <paper-item>
+                  <paper-item-body two-line>
+                    <div>Sentry.io</div>
+                    <div secondary>Official Web Site</div>
+                  </paper-item-body>
+                </paper-item>
+              </a>
 
-              <a href="https://docs.sentry.io">Sentry.io documentation</a>
+              <a href="https://docs.sentry.io" tabindex="-1" class="paper-item-link">
+                <paper-item>
+                  <paper-item-body two-line>
+                    <div>Sentry.io</div>
+                    <div secondary>documentation</div>
+                  </paper-item-body>
+                </paper-item>
+              </a>
 
             </div>
           </div>
